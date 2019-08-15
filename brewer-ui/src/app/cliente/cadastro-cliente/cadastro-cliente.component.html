@@ -1,0 +1,83 @@
+<app-page-header [titulo]="tituloPagina" tituloBotao="Pesquisa" linkRota="/clientes" [exibeBotao]="true"></app-page-header>
+
+<div class="container-fluid">
+    <p-messages></p-messages>
+
+    <form #form="ngForm" autocomplete="off" (ngSubmit)="salvar(form)">
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12 bw-required">
+                <label for="nome">Nome</label>
+                <input type="text" id="nome" name="nome" pInputText [(ngModel)]="cliente.nome"
+                       #nome="ngModel" required>
+                <app-message [control]="nome" error="required"
+                             text="Nome é obrigatório."></app-message>
+            </div>
+        </div>
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-4 bw-required">
+                <label for="tipoPessoa">Tipo Pessoa</label>
+                <div class="radio-button-inline">
+                    <div *ngFor="let tipoPessoa of tiposPessoa">
+                        <p-radioButton name="tipoPessoa" [value]="tipoPessoa.value" [label]="tipoPessoa.label"
+                                       [(ngModel)]="cliente.tipoPessoa" (click)="onTipoPessoaAlterado(tipoPessoa.documento, tipoPessoa.mascara)"></p-radioButton>
+                    </div>
+                </div>
+            </div>
+            <div class="ui-g-8 bw-required">
+                <label for="cpfOuCnpj">{{ documentoCpfOuCnpj }}</label>
+                <p-inputMask type="text" id="cpfOuCnpj" name="cpfOuCnpj" [mask]="mascaraCpfOuCnpj" [(ngModel)]="cliente.cpfOuCnpj"
+                             #cpfOuCnpj="ngModel" required [disabled]="!mascaraCpfOuCnpj"></p-inputMask>
+                <app-message [control]="cpfOuCnpj" error="required"
+                             text="CPF/CNPJ é obrigatório."></app-message>
+            </div>
+        </div>
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-4">
+                <label for="telefone">Telefone</label>
+                <input type="text" id="telefone" name="telefone" pInputText appTelefoneMask [(ngModel)]="cliente.telefone">
+            </div>
+            <div class="ui-g-8">
+                <label for="email">E-mail</label>
+                <input type="email" id="email" name="email" pInputText [(ngModel)]="cliente.email"
+                       #email="ngModel" email>
+                <app-message [control]="email" error="email"
+                             text="E-mail inválido."></app-message>
+            </div>
+        </div>
+        <div>
+            <div class="ui-g ui-fluid">
+                <div class="ui-g-4">
+                    <label for="logradouro">Logradouro</label>
+                    <input type="text" id="logradouro" name="logradouro" pInputText [(ngModel)]="cliente.endereco.logradouro">
+                </div>
+                <div class="ui-g-4">
+                    <label for="numero">Número</label>
+                    <input type="text" id="numero" name="numero" pInputText [(ngModel)]="cliente.endereco.numero">
+                </div>
+                <div class="ui-g-4">
+                    <label for="complemento">Complemento</label>
+                    <input type="text" id="complemento" name="complemento" pInputText [(ngModel)]="cliente.endereco.complemento">
+                </div>
+            </div>
+            <div class="ui-g ui-fluid">
+                <div class="ui-g-4">
+                    <label for="cep">CEP</label>
+                    <input type="text" id="cep" name="cep" pInputText [(ngModel)]="cliente.endereco.cep">
+                </div>
+                <div class="ui-g-4">
+                    <label for="estado">Estado</label>
+                    <p-dropdown id="estado" name="estado" [options]="estados" placeholder="Selecione o Estado" [style]="{'width':'100%'}"
+                                [(ngModel)]="cliente.endereco.estado" (ngModelChange)="onEstadoAlterado($event)"></p-dropdown>
+                </div>
+                <div class="ui-g-4">
+                    <label for="cidade">Cidade</label>
+                    <p-dropdown id="cidade" name="cidade" [options]="cidades" placeholder="Selecione a Cidade" [style]="{'width':'100%'}"
+                                [(ngModel)]="cliente.endereco.cidade" [disabled]="!cidades"></p-dropdown>
+                </div>
+            </div>
+        </div>
+
+        <button type="submit" pButton class="bw-btn" label="Salvar"
+                [disabled]="form.invalid"></button>
+    </form>
+</div>

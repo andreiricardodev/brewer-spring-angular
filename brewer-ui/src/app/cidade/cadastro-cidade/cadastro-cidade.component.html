@@ -1,0 +1,26 @@
+<app-page-header [titulo]="tituloPagina" tituloBotao="Pesquisa" linkRota="/cidades" [exibeBotao]="true"></app-page-header>
+
+<div class="container-fluid">
+    <p-messages></p-messages>
+
+    <form #form="ngForm" autocomplete="off" (ngSubmit)="salvar(form)">
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-4 bw-required">
+                <label for="estado">Estado</label>
+                <p-dropdown id="estado" name="estado" [options]="estados" placeholder="Selecione o Estado" [style]="{'width':'100%'}"
+                            [(ngModel)]="cidade.estado" #estado="ngModel" required></p-dropdown>
+                <app-message [control]="estado" error="required"
+                             text="Estado é obrigatório."></app-message>
+            </div>
+            <div class="ui-g-8 bw-required">
+                <label for="nome">Nome</label>
+                <input type="text" id="nome" name="nome" pInputText [(ngModel)]="cidade.nome" #nome="ngModel" required>
+                <app-message [control]="nome" error="required"
+                             text="Nome é obrigatório."></app-message>
+            </div>
+        </div>
+
+        <button type="submit" pButton class="bw-btn" label="Salvar"
+                [disabled]="form.invalid"></button>
+    </form>
+</div>

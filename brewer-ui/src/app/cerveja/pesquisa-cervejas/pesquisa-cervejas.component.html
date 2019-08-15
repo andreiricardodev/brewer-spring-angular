@@ -1,0 +1,95 @@
+<app-page-header titulo="Pesquisa de Cervejas" tituloBotao="Nova Cerveja" linkRota="/cervejas/nova" [exibeBotao]="true"></app-page-header>
+
+<div class="container-fluid">
+    <p-messages></p-messages>
+
+    <form autocomplete="off" (ngSubmit)="pesquisar()">
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-6">
+                <label for="sku">SKU</label>
+                <input type="text" id="sku" name="sku" pInputText [(ngModel)]="cervejaFilter.sku">
+            </div>
+            <div class="ui-g-6">
+                <label for="nome">Nome</label>
+                <input type="text" id="nome" name="nome" pInputText [(ngModel)]="cervejaFilter.nome">
+            </div>
+        </div>
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-6">
+                <label for="estilo">Estilo</label>
+                <p-dropdown id="estilo" name="estilo" [options]="estilos" placeholder="Todos os Estilos" [style]="{'width': '100%'}"
+                            [(ngModel)]="cervejaFilter.estilo"></p-dropdown>
+            </div>
+            <div class="ui-g-6">
+                <label for="sabor">Sabor</label>
+                <p-dropdown id="sabor" name="sabor" [options]="sabores" placeholder="Todos os Sabores" [style]="{'width': '100%'}"
+                            [(ngModel)]="cervejaFilter.sabor"></p-dropdown>
+            </div>
+        </div>
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-6">
+                <label for="origens">Origem</label>
+                <div class="radio-button-inline">
+                    <div *ngFor="let origem of origens">
+                        <p-radioButton name="origem" [value]="origem.value" [label]="origem.label"
+                                       [(ngModel)]="cervejaFilter.origem"></p-radioButton>
+                    </div>
+                </div>
+            </div>
+            <div class="ui-g-6">
+                <label for="valorDe">Valor Unitário</label>
+                <div class="form-inline">
+                    <input type="text" id="valorDe" name="valorDe" pInputText class="form-inline-input" [(ngModel)]="cervejaFilter.valorDe"
+                           currencyMask [options]="{prefix: '', thousands: '.', decimal: ','}">
+                    <label for="valorAte" class="form-inline-label">até</label>
+                    <input type="text" id="valorAte" name="valorAte" pInputText class="form-inline-input" [(ngModel)]="cervejaFilter.valorAte"
+                           currencyMask [options]="{prefix: '', thousands: '.', decimal: ','}">
+                </div>
+            </div>
+        </div>
+
+        <button type="submit" pButton class="bw-btn" label="Pesquisar"></button>
+    </form>
+
+    <div class="ui-g ui-fluid">
+        <div class="ui-g-12">
+            <p-dataTable #tabela [value]="cervejas" [responsive]="true"
+                emptyMessage="Nenhuma cerveja encontrada"
+                [paginator]="true" [rows]="cervejaFilter.itensPorPagina"
+                [lazy]="true" [totalRecords]="totalRegistros"
+                (onLazyLoad)="aoMudarPagina($event)"
+                (onSort)="aoOrdenar($event)">
+                <p-column styleClass="table-cervejas-col-foto">
+                    <ng-template let-cerveja="rowData" pTemplate="body">
+                        <img [src]="cerveja.urlThumbnailFoto">
+                    </ng-template>
+                </p-column>
+                <p-column field="sku" header="SKU" styleClass="table-cervejas-col-sku" [sortable]="true"></p-column>
+                <p-column field="nome" header="Nome" styleClass="table-cervejas-col-nome" [sortable]="true"></p-column>
+                <p-column field="estilo.nome" header="Estilo" styleClass="table-cervejas-col-estilo"></p-column>
+                <p-column field="origem" header="Origem" styleClass="table-cervejas-col-origem">
+                    <ng-template let-cerveja="rowData" pTemplate="body">
+                        {{ getDescricaoOrigem(cerveja.origem) }}
+                    </ng-template>
+                </p-column>
+                <p-column field="valor" header="Valor" styleClass="table-cervejas-col-valor">
+                    <ng-template let-cerveja="rowData" pTemplate="body">
+                        {{ cerveja.valor | currency:'BRL':true }}
+                    </ng-template>
+                </p-column>
+                <p-column styleClass="table-col-acoes">
+                    <ng-template let-cerveja="rowData" pTemplate="body">
+                        <a class="bw-btn-link" pTooltip="Editar" tooltipPosition="top"
+                           [routerLink]="['/cervejas/'+cerveja.codigo]">
+                            <span class="fa fa-pencil"></span>
+                        </a>
+                        <a class="bw-btn-link" pTooltip="Excluir" tooltipPosition="top"
+                           (click)="removerCerveja(cerveja, tabela)">
+                            <span class="fa fa-trash"></span>
+                        </a>
+                    </ng-template>
+                </p-column>
+            </p-dataTable>
+        </div>
+    </div>
+</div>

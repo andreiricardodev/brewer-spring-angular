@@ -1,0 +1,28 @@
+.aw-box {
+    padding: 20px;
+    margin-bottom: 15px;
+    border: 1px solid #eeeeee;
+    border-bottom: 3px solid #1e94d2;
+}
+
+.aw-box__icon {
+    float: left;
+    color: #1e94d2;
+}
+
+.aw-box__value {
+    font-size: 1.69em;
+    font-weight: 300;
+    text-align: right;
+}
+
+.aw-box__title {
+    display: block;
+    font-size: 1em;
+    font-weight: 600;
+    text-align: right;
+}
+
+.negativo .aw-box__value {
+    color: red;
+}

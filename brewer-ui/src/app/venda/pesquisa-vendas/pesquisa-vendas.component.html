@@ -1,0 +1,94 @@
+<app-page-header titulo="Pesquisa de Vendas" tituloBotao="Nova Venda" linkRota="/vendas/nova" [exibeBotao]="true"></app-page-header>
+
+<div class="container-fluid">
+    <p-messages></p-messages>
+
+    <form autocomplete="off" (ngSubmit)="pesquisar()">
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-6">
+                <label for="codigo">Código</label>
+                <input type="text" id="codigo" name="codigo" pInputText [(ngModel)]="vendaFilter.codigo">
+            </div>
+            <div class="ui-g-6">
+                <label for="status">Status</label>
+                <p-dropdown id="status" name="status" [options]="todosEstatus" placeholder="Todos os Status"
+                            [style]="{'width': '100%'}" [(ngModel)]="vendaFilter.status"></p-dropdown>
+            </div>
+        </div>
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-6">
+                <label for="dataCriacaoDe">Data de Criação</label>
+                <div class="form-inline">
+                    <p-calendar id="dataCriacaoDe" name="dataCriacaoDe" dateFormat="dd/mm/yy" [locale]="idiomaCalendario"
+                                [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2050"
+                                showButtonBar="true" [(ngModel)]="vendaFilter.dataInicial"></p-calendar>
+                    <label for="dataCriacaoAte" class="form-inline-label">até</label>
+                    <p-calendar id="dataCriacaoAte" name="dataCriacaoAte" dateFormat="dd/mm/yy" [locale]="idiomaCalendario"
+                                [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2050"
+                                showButtonBar="true" [(ngModel)]="vendaFilter.dataFinal"></p-calendar>
+
+                </div>
+            </div>
+            <div class="ui-g-6">
+                <label for="valorInicial">Valor</label>
+                <div class="form-inline">
+                    <input type="text" id="valorInicial" name="valorInicial" pInputText class="form-inline-input"
+                           currencyMask [options]="{prefix: '', thousands: '.', decimal: ','}" [(ngModel)]="vendaFilter.valorInicial">
+                    <label for="valorFinal" class="form-inline-label">até</label>
+                    <input type="text" id="valorFinal" name="valorFinal" pInputText class="form-inline-input"
+                           currencyMask [options]="{prefix: '', thousands: '.', decimal: ','}" [(ngModel)]="vendaFilter.valorFinal">
+                </div>
+            </div>
+        </div>
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-6">
+                <label for="nomeCliente">Nome do Cliente</label>
+                <input type="text" id="nomeCliente" name="nomeCliente" pInputText [(ngModel)]="vendaFilter.nomeCliente">
+            </div>
+            <div class="ui-g-6">
+                <label for="cpfOuCnpj">CPF/CNPJ</label>
+                <input type="text" id="cpfOuCnpj" name="cpfOuCnpj" pInputText [(ngModel)]="vendaFilter.cpfOuCnpjCliente">
+            </div>
+        </div>
+
+        <button type="submit" pButton class="bw-btn" label="Pesquisar"></button>
+    </form>
+
+    <div class="ui-g ui-fluid">
+        <div class="ui-g-12">
+            <p-dataTable [value]="vendas" [responsive]="true"
+                         emptyMessage="Nenhuma venda encontrada"
+                         [paginator]="true" [rows]="vendaFilter.itensPorPagina"
+                         [lazy]="true" [totalRecords]="totalRegistros"
+                         (onLazyLoad)="aoMudarPagina($event)"
+                         (onSort)="aoOrdenar($event)">
+                <p-column field="codigo" header="Código" styleClass="table-vendas-col-codigo"></p-column>
+                <p-column field="cliente.nome" header="Nome" styleClass="table-vendas-col-nome" [sortable]="true"></p-column>
+                <p-column header="Data de Criação" styleClass="table-vendas-col-data_criacao">
+                    <ng-template let-venda="rowData" pTemplate="body">
+                        {{ venda.dataCriacao | date:'dd/MM/yyyy' }}
+                    </ng-template>
+                </p-column>
+                <p-column header="Valor Total" styleClass="table-vendas-col-valor_total">
+                    <ng-template let-venda="rowData" pTemplate="body">
+                        {{ venda.valorTotal | currency:'BRL':true }}
+                    </ng-template>
+                </p-column>
+                <p-column field="usuario.nome" header="Vendedor" styleClass="table-vendas-col-vendedor"></p-column>
+                <p-column header="Status" styleClass="table-vendas-col-status">
+                    <ng-template let-venda="rowData" pTemplate="body">
+                        {{ getDescricaoStatus(venda.status) }}
+                    </ng-template>
+                </p-column>
+                <p-column styleClass="table-col-acoes">
+                    <ng-template let-venda="rowData" pTemplate="body">
+                        <a class="bw-btn-link" pTooltip="Editar" tooltipPosition="top"
+                           [routerLink]="['/vendas/'+venda.codigo]">
+                            <span class="fa fa-pencil"></span>
+                        </a>
+                    </ng-template>
+                </p-column>
+            </p-dataTable>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,17 @@
+<div class="page-header">
+    <div class="container-fluid">
+        <div class="ui-g">
+            <div class="ui-g-10">
+                <h1>{{ titulo }}</h1>
+            </div>
+            <div class="ui-g-2" *ngIf="linkRota && exibeBotao">
+                <div class="page-header-controls">
+                    <button type="button" pButton class="ui-button-secondary ui-button-desktop" icon="fa-plus-circle"
+                            [label]="tituloBotao" [routerLink]="linkRota"></button>
+                    <button type="button" pButton class="ui-button-secondary ui-button-mobile" icon="fa-plus-circle"
+                            [routerLink]="linkRota"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

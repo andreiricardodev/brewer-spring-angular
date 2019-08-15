@@ -1,0 +1,55 @@
+<app-page-header titulo="Pesquisa de Clientes" tituloBotao="Novo Cliente" linkRota="/clientes/novo" [exibeBotao]="true"></app-page-header>
+
+<div class="container-fluid">
+    <form autocomplete="off" (ngSubmit)="pesquisar()">
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-8">
+                <label for="nome">Nome</label>
+                <input type="text" id="nome" name="nome" pInputText [(ngModel)]="clienteFilter.nome">
+            </div>
+            <div class="ui-g-4">
+                <label for="cpfOuCnpj">CPF/CNPJ</label>
+                <input type="text" id="cpfOuCnpj" name="cpfOuCnpj" pInputText [(ngModel)]="clienteFilter.cpfOuCnpj">
+            </div>
+        </div>
+
+        <button type="submit" pButton class="bw-btn" label="Pesquisar"></button>
+    </form>
+
+    <div class="ui-g ui-fluid">
+        <div class="ui-g-12">
+            <p-dataTable #tabela [value]="clientes" [responsive]="true"
+                         emptyMessage="Nenhum cliente encontrado"
+                         [paginator]="true" [rows]="clienteFilter.itensPorPagina"
+                         [lazy]="true" [totalRecords]="totalRegistros"
+                         (onLazyLoad)="aoMudarPagina($event)"
+                         (onSort)="aoOrdenar($event)">
+                <p-column field="nome" header="Nome" styleClass="table-clientes-col-nome" [sortable]="true"></p-column>
+                <p-column field="tipoPessoa" header="Tipo Pessoa" styleClass="table-clientes-col-tipo-pessoa" [sortable]="true">
+                    <ng-template let-cliente="rowData" pTemplate="body">
+                        {{ getDescricaoTipoPessoa(cliente.tipoPessoa) }}
+                    </ng-template>
+                </p-column>
+                <p-column field="cpfOuCnpj" header="CPF/CNPJ" styleClass="table-clientes-col-cpf-cnpj"></p-column>
+                <p-column field="telefone" header="Telefone" styleClass="table-clientes-col-telefone"></p-column>
+                <p-column header="Cidade/Estado" styleClass="table-clientes-col-cidade-estado">
+                    <ng-template let-cliente="rowData" pTemplate="body">
+                        {{ getNomeCidadeSiglaEstado(cliente.endereco.cidade) }}
+                    </ng-template>
+                </p-column>
+                <p-column styleClass="table-col-acoes">
+                    <ng-template let-cliente="rowData" pTemplate="body">
+                        <a class="bw-btn-link" pTooltip="Editar" tooltipPosition="top"
+                           [routerLink]="['/clientes/'+cliente.codigo]">
+                            <span class="fa fa-pencil"></span>
+                        </a>
+                        <a class="bw-btn-link" pTooltip="Excluir" tooltipPosition="top"
+                           (click)="removerCliente(cliente, tabela)">
+                            <span class="fa fa-trash"></span>
+                        </a>
+                    </ng-template>
+                </p-column>
+            </p-dataTable>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,34 @@
+<div class="login-page">
+    <div class="login-panel">
+        <img src="../../../assets/images/logo-gray.png">
+
+        <div class="login-panel__message">
+            Por favor, faça o login.
+        </div>
+
+        <p-messages></p-messages>
+
+        <div class="login-panel__box">
+            <form autocomplete="off" #f="ngForm">
+                <div class="ui-inputgroup ui-fluid login-inputgroup">
+                    <input type="email" placeholder="Seu e-mail" autofocus="autofocus" pInputText
+                           ngModel required #usuario [ngModelOptions]="{standalone: true}" autofocus>
+                    <div class="ui-inputgroup-addon">
+                        <span class="fa fa-user"></span>
+                    </div>
+                </div>
+
+                <div class="ui-inputgroup ui-fluid login-inputgroup">
+                    <input type="password" placeholder="Sua senha" pInputText
+                           ngModel required #senha [ngModelOptions]="{standalone: true}">
+                    <div class="ui-inputgroup-addon">
+                        <span class="fa fa-key"></span>
+                    </div>
+                </div>
+
+                <button type="submit" pButton class="login-btn-full-width" label="Entrar"
+                        [disabled]="!f.valid" (click)="login(usuario.value, senha.value); senha.value = '';"></button>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,149 @@
+<app-page-header [titulo]="tituloPagina" tituloBotao="Pesquisa" linkRota="/cervejas" [exibeBotao]="true"></app-page-header>
+
+<div class="container-fluid">
+    <p-messages></p-messages>
+
+    <form #form="ngForm" autocomplete="off" (ngSubmit)="salvar(form)">
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-2 bw-required">
+                <label for="sku">SKU</label>
+                <input type="text" id="sku" name="sku" pInputText [(ngModel)]="cerveja.sku"
+                       #sku="ngModel" required>
+                <app-message [control]="sku" error="required"
+                             text="O SKU é obrigatório."></app-message>
+            </div>
+            <div class="ui-g-10 bw-required">
+                <label for="nome">Nome</label>
+                <input type="text" id="nome" name="nome" pInputText  [(ngModel)]="cerveja.nome"
+                       #nome="ngModel" required>
+                <app-message [control]="nome" error="required"
+                             text="O nome é obrigatório."></app-message>
+            </div>
+        </div>
+
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12 bw-required">
+                <label for="descricao">Descrição</label>
+                <textarea rows="3" id="descricao" name="descricao" pInputTextarea [(ngModel)]="cerveja.descricao"
+                          #descricao="ngModel" required maxlength="50"></textarea>
+                <app-message [control]="descricao" error="required"
+                             text="A descrição é obrigatória."></app-message>
+                <app-message [control]="descricao" error="maxLength"
+                             text="O tamanho da descrição deve estar entre 1 e 50."></app-message>
+            </div>
+        </div>
+
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-3 bw-required">
+                <label for="estilo">Estilo</label>
+                <div class="bw-field-action">
+                    <p-dropdown id="estilo" name="estilo" [options]="estilos" placeholder="Selecione o Estilo" [style]="{'width':'100%'}"
+                                [(ngModel)]="cerveja.estilo" #estilo="ngModel" required></p-dropdown>
+                    <app-message [control]="estilo" error="required"
+                                 text="O estilo é obrigatório."></app-message>
+
+                    <div class="bw-field-action__icon">
+                        <a href="javascript:;" (click)="onShowDialog()">
+                            <i class="fa fa-plus-circle bw-fa-plus-circle-large"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="ui-g-3 bw-required">
+                <label for="sabor">Sabor</label>
+                <p-dropdown id="sabor" name="sabor" [options]="sabores" placeholder="Selecione o Sabor" [style]="{'width':'100%'}"
+                            [(ngModel)]="cerveja.sabor" #sabor="ngModel" required></p-dropdown>
+                <app-message [control]="sabor" error="required"
+                             text="O sabor é obrigatório."></app-message>
+            </div>
+            <div class="ui-g-3 bw-required">
+                <label for="teorAlcoolico">Teor Alcoólico</label>
+                <div class="ui-inputgroup">
+                    <input type="text" id="teorAlcoolico" name="teorAlcoolico" pInputText [(ngModel)]="cerveja.teorAlcoolico"
+                           currencyMask [options]="{prefix: '', thousands: '.', decimal: ','}" #teorAlcoolico="ngModel"
+                           required max="100.0">
+                    <div class="ui-inputgroup-addon">%</div>
+                </div>
+                <app-message [control]="teorAlcoolico" error="required"
+                             text="O teor alcóolico é obrigatório."></app-message>
+                <app-message [control]="teorAlcoolico" error="max"
+                             text="O valor do teor alcóolico deve ser menor que 100."></app-message>
+            </div>
+            <div class="ui-g-3 bw-required">
+                <label for="origem">Origem</label>
+                <div class="radio-button-inline">
+                    <div *ngFor="let origem of origens">
+                        <p-radioButton name="origem" [value]="origem.value" [label]="origem.label" [inputId]="'origem_'+origem.value"
+                                       [(ngModel)]="cerveja.origem" required></p-radioButton>
+                    </div>
+                </div>
+                <!--<app-message [control]="origem" error="required"-->
+                             <!--text="A origem é obrigatória."></app-message>-->
+            </div>
+        </div>
+
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-3 bw-required">
+                <label for="valor">Valor</label>
+                <div class="ui-inputgroup">
+                    <div class="ui-inputgroup-addon">R$</div>
+                    <input type="text" id="valor" name="valor" pInputText [(ngModel)]="cerveja.valor"
+                           currencyMask [options]="{prefix: '', thousands: '.', decimal: ','}"
+                           #valor="ngModel" required min="0.50" max="9999999.99">
+                </div>
+                <app-message [control]="valor" error="required"
+                             text="Valor é obrigatório."></app-message>
+                <app-message [control]="valor" error="min"
+                             text="O valor da cerveja deve ser maior que R$0,50."></app-message>
+                <app-message [control]="valor" error="max"
+                             text="O valor da cerveja deve ser menor que R$9.999.999,99."></app-message>
+            </div>
+
+            <div class="ui-g-3 bw-required">
+                <label for="comissao">Comissão</label>
+                <div class="ui-inputgroup">
+                    <input type="text" id="comissao" name="comissao" pInputText [(ngModel)]="cerveja.comissao"
+                           currencyMask [options]="{prefix: '', thousands: '.', decimal: ','}"
+                           #comissao="ngModel" required max="100.0">
+                    <div class="ui-inputgroup-addon">%</div>
+                </div>
+                <app-message [control]="comissao" error="required"
+                             text="A comissão é obrigatória."></app-message>
+                <app-message [control]="comissao" error="max"
+                             text="A comissão deve ser igual ou menor que 100."></app-message>
+            </div>
+
+            <div class="ui-g-3 bw-required">
+                <label for="estoque">Estoque</label>
+                <input type="text" id="estoque" name="estoque" pInputText [(ngModel)]="cerveja.quantidadeEstoque"
+                       currencyMask [options]="{prefix: '', thousands: '.', precision: 0}"
+                       #estoque="ngModel" required max="9999">
+                <app-message [control]="estoque" error="required"
+                             text="A quantidade em estoque é obrigatória."></app-message>
+                <app-message [control]="estoque" error="max"
+                             text="A quantidade em estoque deve ser menor que 9.999."></app-message>
+            </div>
+        </div>
+        <div class="ui-g">
+            <div class="ui-g-12">
+                <label>Foto</label><label *ngIf="!cerveja.foto"> (Selecione a foto ou arraste abaixo)</label>
+                <div *ngIf="!cerveja.foto">
+                    <p-fileUpload name="files[]" customUpload="true" (uploadHandler)="uploadFoto($event)"
+                                  accept="image/*" auto="true" chooseLabel="Selecionar" showUploadButton="false"
+                                  showCancelButton="false"></p-fileUpload>
+                </div>
+                <div align="center" *ngIf="cerveja.foto">
+                    <img  [src]="cerveja.urlFoto" *ngIf="cerveja.foto">
+                </div>
+                <div align="center" *ngIf="cerveja.foto">
+                    <button type="button" pButton class="ui-button-secondary" icon="fa fa-remove" (click)="removerFoto()"></button>
+                </div>
+            </div>
+        </div>
+
+        <button type="submit" pButton class="bw-btn" label="Salvar"
+                [disabled]="form.invalid"></button>
+    </form>
+</div>
+
+<app-cadastro-rapido-estilo [showDialog]="showDialog" (estiloSalvo)="onEstiloCadastrado($event)"></app-cadastro-rapido-estilo>

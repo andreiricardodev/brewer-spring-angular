@@ -1,0 +1,42 @@
+<app-page-header titulo="Pesquisa de Estilos" tituloBotao="Novo Estilo" linkRota="/estilos/novo" [exibeBotao]="true"></app-page-header>
+
+<div class="container-fluid">
+    <p-messages></p-messages>
+
+    <form autocomplete="off" (ngSubmit)="pesquisar()">
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12">
+                <label for="nome">Nome</label>
+                <input type="text" id="nome" name="nome" pInputText [(ngModel)]="estiloFilter.nome">
+            </div>
+        </div>
+
+        <button type="submit" pButton class="bw-btn" label="Pesquisar"></button>
+    </form>
+
+    <div class="ui-g ui-fluid">
+        <div class="ui-g-12">
+            <p-dataTable #tabela [value]="estilos" [responsive]="true"
+                         emptyMessage="Nenhum estilo encontrado"
+                         [paginator]="true" [rows]="estiloFilter.itensPorPagina"
+                         [lazy]="true" [totalRecords]="totalRegistros"
+                         (onLazyLoad)="aoMudarPagina($event)"
+                         (onSort)="aoOrdenar($event)">
+                <p-column field="codigo" header="Código" styleClass="table-estilos-col-codigo"></p-column>
+                <p-column field="nome" header="Nome" styleClass="table-estilos-col-nome" [sortable]="true"></p-column>
+                <p-column styleClass="table-col-acoes">
+                    <ng-template let-estilo="rowData" pTemplate="body">
+                        <a class="bw-btn-link" pTooltip="Editar" tooltipPosition="top"
+                           [routerLink]="['/estilos', estilo.codigo]">
+                            <span class="fa fa-pencil"></span>
+                        </a>
+                        <a class="bw-btn-link" pTooltip="Excluir" tooltipPosition="top"
+                            (click)="removerEstilo(estilo, tabela)">
+                            <span class="fa fa-trash"></span>
+                        </a>
+                    </ng-template>
+                </p-column>
+            </p-dataTable>
+        </div>
+    </div>
+</div>

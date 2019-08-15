@@ -1,0 +1,69 @@
+<app-page-header titulo="Pesquisa de Usuários" tituloBotao="Novo Usuário" linkRota="/usuarios/novo" [exibeBotao]="true"></app-page-header>
+
+<div class="container-fluid">
+    <p-messages></p-messages>
+
+    <form autocomplete="off" (ngSubmit)="pesquisar()">
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-6">
+                <label for="nome">Nome</label>
+                <input type="text" id="nome" name="nome" pInputText [(ngModel)]="usuarioFilter.nome">
+            </div>
+            <div class="ui-g-6">
+                <label for="email">E-mail</label>
+                <input type="text" id="email" name="email" pInputText [(ngModel)]="usuarioFilter.email">
+            </div>
+        </div>
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12">
+                <label for="grupos">Grupos</label>
+                <div class="checkbox-inline">
+                    <div *ngFor="let grupo of grupos">
+                        <p-checkbox name="grupos" [value]="grupo" [label]="grupo.nome" [inputId]="grupo.codigo"
+                                    [(ngModel)]="gruposSelecionados"></p-checkbox>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button type="submit" pButton class="bw-btn" label="Pesquisar"></button>
+    </form>
+
+    <div class="ui-g ui-fluid">
+        <div class="ui-g-12">
+            <p-dataTable #tabela [value]="usuarios" [responsive]="true"
+                         emptyMessage="Nenhum usuário encontrado"
+                         [paginator]="true" [rows]="usuarioFilter.itensPorPagina"
+                         [lazy]="true" [totalRecords]="totalRegistros"
+                         (onLazyLoad)="aoMudarPagina($event)"
+                         (onSort)="aoOrdenar($event)">
+                <p-column field="nome" header="Nome" styleClass="table-usuarios-col-nome"></p-column>
+                <p-column field="email" header="E-mail" styleClass="table-usuarios-col-email"></p-column>
+                <p-column field="grupos" header="Grupo" styleClass="table-usuarios-col-grupo">
+                    <ng-template let-usuario="rowData" pTemplate="body">
+                        <span *ngFor="let grupo of usuario.grupos; let i = index">
+                            {{ grupo.nome + (i + 1 === usuario.grupos.length ? '' : ',') }}
+                        </span>
+                    </ng-template>
+                </p-column>
+                <p-column header="Status" styleClass="table-usuarios-col-status">
+                    <ng-template let-usuario="rowData" pTemplate="body">
+                        {{ getStatusUsuario(usuario.ativo) }}
+                    </ng-template>
+                </p-column>
+                <p-column styleClass="table-col-acoes">
+                    <ng-template let-usuario="rowData" pTemplate="body">
+                        <a class="bw-btn-link" pTooltip="Editar" tooltipPosition="top"
+                           [routerLink]="['/usuarios/'+usuario.codigo]">
+                            <span class="fa fa-pencil"></span>
+                        </a>
+                        <a class="bw-btn-link" pTooltip="Excluir" tooltipPosition="top"
+                           (click)="removerUsuario(usuario, tabela)">
+                            <span class="fa fa-trash"></span>
+                        </a>
+                    </ng-template>
+                </p-column>
+            </p-dataTable>
+        </div>
+    </div>
+</div>

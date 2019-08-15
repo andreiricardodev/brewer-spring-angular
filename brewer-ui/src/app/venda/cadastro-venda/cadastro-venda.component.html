@@ -1,0 +1,113 @@
+<app-page-header [titulo]="tituloPagina" tituloBotao="Pesquisa" linkRota="/vendas" [exibeBotao]="true"></app-page-header>
+
+<div class="container-fluid">
+    <p-messages></p-messages>
+
+    <form #form="ngForm" autocomplete="off">
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-4">
+                <app-box titulo="Total" [valor]="venda.valorTotal | currency:'BRL':true" icone="fa-usd"
+                         [valorNegativo]="venda.valorTotal < 0"></app-box>
+            </div>
+            <div class="ui-g-4">
+                <app-box titulo="Status" [valor]="getDescricaoStatus()" icone="fa-tag"></app-box>
+            </div>
+            <div class="ui-g-4">
+                <app-box titulo="Criação" [valor]="getDiasCriacao()" icone="fa-calendar"></app-box>
+            </div>
+        </div>
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-4 bw-required">
+                <label for="nomeCliente">Cliente</label>
+                <div class="ui-inputgroup">
+                    <input id="nomeCliente" name="nomeCliente" pInputText readonly="readonly"
+                           placeholder="Clique na lupa para pesquisar o cliente" [ngModel]="venda.cliente.nome">
+                    <button type="button" pButton class="ui-button-secondary" icon="fa fa-search" pTooltip="Pesquisa avançada"
+                            tooltipPosition="top" (click)="onShowDialog()" [disabled]="salvarProibido()"></button>
+                </div>
+            </div>
+            <div class="ui-g-4">
+                <label for="valorFrete">Valor do Frete</label>
+                <div class="ui-inputgroup">
+                    <div class="ui-inputgroup-addon">R$</div>
+                    <input id="valorFrete" name="valorFrete" pInputText currencyMask [options]="{prefix: '', thousands: '.', decimal: ','}"
+                           [(ngModel)]="venda.valorFrete" (blur)="calculaTotalVenda()" [disabled]="salvarProibido()">
+                </div>
+            </div>
+            <div class="ui-g-4">
+                <label for="valorDesconto">Valor do Desconto</label>
+                <div class="ui-inputgroup">
+                    <div class="ui-inputgroup-addon">R$</div>
+                    <input id="valorDesconto" name="valorDesonto" pInputText currencyMask [options]="{prefix: '', thousands: '.', decimal: ','}"
+                           [(ngModel)]="venda.valorDesconto" (blur)="calculaTotalVenda()" [disabled]="salvarProibido()">
+                </div>
+            </div>
+        </div>
+
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12">
+                <p-tabView>
+                    <p-tabPanel header="Cervejas">
+                        <div class="ui-g">
+                            <div class="ui-g-12">
+                                <p-autoComplete [minLength]="3" [suggestions]="cervejasFiltradas" (completeMethod)="filtrarCervejas($event)"
+                                                (onSelect)="adicionarItem()" placeholder="Pesquise e adicione a cerveja pelo SKU ou nome"
+                                                [(ngModel)]="cervejaSelecionada" [ngModelOptions]="{standalone: true}" field="nome">
+                                    <ng-template let-cerveja pTemplate="item">
+                                        <div class="bw-tabela-item">
+                                            <div class="bw-tabela-item__coluna  bw-tabela-item__coluna--foto">
+                                                <img [src]="cerveja.urlThumbnailFoto" />
+                                            </div>
+                                            <div class="bw-tabela-item__coluna  bw-tabela-item__coluna--detalhes">
+                                                <span class="bw-tabela-cerveja-nome">{{ cerveja.nome }}</span>
+                                                <span class="label  label-default">{{ cerveja.sku }}</span>
+                                                <span class="bw-tabela-cerveja-origem">{{ getDescricaoOrigemCerveja(cerveja.origem) }}</span>
+                                            </div>
+                                            <div class="bw-tabela-item__coluna  bw-tabela-item__coluna--valores">
+                                                <div class="bw-tabela-cerveja-valor-medio">{{ cerveja.valor | currency:'BRL':true }}</div>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </p-autoComplete>
+                            </div>
+                        </div>
+
+                        <div class="bw-tabela-cervejas">
+                            <app-tabela-itens-venda [(itens)]="itensVenda" (atualizouQuantidade)="calculaTotalVenda()"></app-tabela-itens-venda>
+                        </div>
+                    </p-tabPanel>
+                    <p-tabPanel header="Entrega">
+                        <div class="ui-g">
+                            <div class="ui-g-3">
+                                <label for="dataEntrega">Data de Entrega</label>
+                                <p-calendar id="dataEntrega" name="dataEntrega" dateFormat="dd/mm/yy" [locale]="idiomaCalendario"
+                                            [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2050"
+                                            showButtonBar="true" [(ngModel)]="venda.dataEntrega"></p-calendar>
+                            </div>
+                            <div class="ui-g-3">
+                                <label for="horarioEntrega">Horário de Entrega</label>
+                                <p-calendar id="horarioEntrega" name="horarioEntrega" [timeOnly]="true" [(ngModel)]="venda.horarioEntrega"></p-calendar>
+                            </div>
+                        </div>
+                        <div class="ui-g">
+                            <div class="ui-g-12">
+                                <textarea id="observacaoEntrega" name="observacaoEntrega" pInputTextarea rows="5" [(ngModel)]="venda.observacao"
+                                          placeholder="Alguma observação para o entregador desse pedido?"></textarea>
+                            </div>
+                        </div>
+                    </p-tabPanel>
+                </p-tabView>
+            </div>
+        </div>
+
+        <div class="ui-g" *ngIf="salvarPermitido()">
+            <div class="ui-g-12">
+                <p-splitButton class="bw-btn" label="Salvar" (onClick)="salvar()" [model]="itensBotaoSalvar"></p-splitButton>
+                <button pButton type="button" class="bw-btn ui-button-danger" label="Cancelar" (click)="cancelar()"
+                        *ngIf="venda.codigo && auth.temPermissao('ROLE_CANCELAR_VENDA')"></button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<app-pesquisa-rapida-cliente [showDialog]="showDialog" (clienteSelecionado)="onClienteSelecionado($event)"></app-pesquisa-rapida-cliente>

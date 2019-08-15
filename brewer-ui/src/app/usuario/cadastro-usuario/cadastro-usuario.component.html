@@ -1,0 +1,62 @@
+<app-page-header [titulo]="tituloPagina" tituloBotao="Pesquisa" linkRota="/usuarios" [exibeBotao]="true"></app-page-header>
+
+<div class="container-fluid">
+    <p-messages></p-messages>
+
+    <form #form="ngForm" autocomplete="off" (ngSubmit)="salvar(form)">
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12 bw-required">
+                <label for="nome">Nome</label>
+                <input type="text" id="nome" name="nome" pInputText [(ngModel)]="usuario.nome"
+                       #nome="ngModel" required>
+                <app-message [control]="nome" error="required"
+                             text="Nome é obrigatório."></app-message>
+            </div>
+        </div>
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-6 bw-required">
+                <label for="email">E-mail</label>
+                <input type="text" id="email" name="email" pInputText [(ngModel)]="usuario.email"
+                       #email="ngModel" required email>
+                <app-message [control]="email" error="required"
+                             text="E-mail é obrigatório."></app-message>
+                <app-message [control]="email" error="email"
+                             text="E-mail inválido."></app-message>
+            </div>
+            <div class="ui-g-3">
+                <label for="dataNascimento">Data de Nascimento</label>
+                <p-calendar id="dataNascimento" name="dataNascimento" dateFormat="dd/mm/yy" [locale]="idiomaCalendario"
+                            [monthNavigator]="true" [yearNavigator]="true" yearRange="1950:2050"
+                            showButtonBar="true" [(ngModel)]="usuario.dataNascimento"></p-calendar>
+            </div>
+        </div>
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-3 bw-required">
+                <label for="senha">Senha</label>
+                <input type="password" id="senha" name="senha" pInputText [(ngModel)]="usuario.senha">
+            </div>
+            <div class="ui-g-3 bw-required">
+                <label for="confirmacaoSenha">Confirmação de Senha</label>
+                <input type="password" id="confirmacaoSenha" name="confirmacaoSenha" pInputText [(ngModel)]="usuario.confirmacaoSenha">
+            </div>
+            <div class="ui-g-1">
+                <label for="status">Status</label>
+                <p-inputSwitch id="status" name="status" onLabel="Ativo" offLabel="Inativo" [style]="{'height': '30px'}"
+                               [(ngModel)]="usuario.ativo"></p-inputSwitch>
+            </div>
+        </div>
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12 bw-required">
+                <label for="grupos">Grupos</label>
+                <div class="checkbox-inline">
+                    <div *ngFor="let grupo of grupos">
+                        <p-checkbox name="grupos" [value]="grupo.codigo" [label]="grupo.nome" [(ngModel)]="gruposSelecionados"></p-checkbox>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button pButton type="submit" class="bw-btn" label="Salvar"
+                [disabled]="form.invalid"></button>
+    </form>
+</div>

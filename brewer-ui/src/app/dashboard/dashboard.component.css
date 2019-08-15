@@ -1,0 +1,33 @@
+.aw-graph-box {
+    margin-bottom: 15px;
+    border: 1px solid #eeeeee;
+    border-bottom: 3px solid #eeeeee;
+}
+.aw-graph-box__header {
+    padding: 15px 20px;
+    border-bottom: 1px solid #eeeeee;
+}
+.aw-graph-box__content {
+    padding: 15px 20px;
+}
+.aw-graph-box__no-data {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    color: #777777;
+}
+.aw-graph-box__no-data > i {
+    margin-right: 5px;
+}
+.aw-graph-box__title {
+    margin: 0;
+    padding: 0;
+    font-size: 1.1em;
+    font-weight: 500;
+}

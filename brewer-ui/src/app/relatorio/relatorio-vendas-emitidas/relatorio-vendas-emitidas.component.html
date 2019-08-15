@@ -1,0 +1,25 @@
+<app-page-header titulo="Relatório de Vendas Emitidas"></app-page-header>
+
+<div class="container-fluid">
+    <p-messages></p-messages>
+
+    <form #form="ngForm" autocomplete="off" (ngSubmit)="emitir()">
+        <div class="ui-g">
+            <div class="ui-g-12">
+                <label for="dataInicio">Data de Criação</label>
+                <div class="form-inline">
+                    <p-calendar id="dataInicio" name="dataInicio" dateFormat="dd/mm/yy" [locale]="idiomaCalendario"
+                                [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2050"
+                                showButtonBar="true" [(ngModel)]="periodoRelatorio.dataInicio"></p-calendar>
+                    <label for="dataFim" class="form-inline-label">até</label>
+                    <p-calendar id="dataFim" name="dataFim" dateFormat="dd/mm/yy" [locale]="idiomaCalendario"
+                                [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2050"
+                                showButtonBar="true" [(ngModel)]="periodoRelatorio.dataFim"></p-calendar>
+
+                </div>
+            </div>
+        </div>
+
+        <button pButton type="submit" class="bw-btn" label="Emitir"></button>
+    </form>
+</div>

@@ -1,0 +1,17 @@
+.bw-fa-plus-circle-large {
+    font-size: 18px;
+}
+
+.bw-field-action {
+    display: flex;
+}
+
+.bw-field-action > #estilo {
+    width: 100% !important;
+}
+
+
+.bw-field-action__icon {
+    margin: 6px 0 0 5px;
+    width: 30px !important;
+}

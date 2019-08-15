@@ -1,0 +1,36 @@
+<p-dialog header="Pesquisa de Clientes" [(visible)]="showDialog" modal="modal" [responsive]="true" [width]="500"
+          [minWidth]="200" [height]="400"  #dialogo>
+    <div class="container-fluid">
+        <p-messages></p-messages>
+
+        <form #form="ngForm" autocomplete="off" (ngSubmit)="pesquisar()">
+            <div style="margin-top: 5px">
+                <input type="text" id="nome" name="nome" pInputText size="65" [(ngModel)]="clienteFilter.nome"
+                       placeholder="Nome do cliente" #nome="ngModel" required minlength="3" autofocus>
+                <app-message [control]="nome" error="required"
+                             text="O nome é obrigatório."></app-message>
+                <app-message [control]="nome" error="minlength"
+                             text="Informe pelo menos 3 letras na pesquisa."></app-message>
+
+                <button pButton type="submit" class="bw-btn" label="Pesquisar"
+                        [disabled]="form.invalid" style="margin-left: 0px"></button>
+            </div>
+
+            <div style="margin-top: 20px">
+                <p-dataTable [value]="clientesFiltrados" [responsive]="true"
+                             emptyMessage="Nenhum cliente encontrado"
+                             [paginator]="true" [rows]="10">
+
+                    <p-column field="nome" header="Nome" [style]="{'text-align': 'left'}"></p-column>
+                    <p-column field="telefone" header="Telefone" [style]="{'text-align': 'left'}"></p-column>
+                    <p-column [style]="{'width': '40px', 'text-align': 'center'}">
+                        <ng-template let-cliente="rowData" pTemplate="body">
+                            <button type="button" pButton class="ui-button-secondary" icon="fa fa-check" title="Selecionar"
+                                    (click)="onClienteSelecionado(form, cliente)"></button>
+                        </ng-template>
+                    </p-column>
+                </p-dataTable>
+            </div>
+        </form>
+    </div>
+</p-dialog>

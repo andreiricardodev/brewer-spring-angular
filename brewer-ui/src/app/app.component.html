@@ -1,0 +1,11 @@
+<div [ngClass]="loadClassLayoutPage()">
+    <app-barra-navegacao *ngIf="exibeBarraNavegacaoEMenuLateral()"></app-barra-navegacao>
+
+    <app-menu-lateral *ngIf="exibeBarraNavegacaoEMenuLateral()"></app-menu-lateral>
+
+    <div [ngClass]="loadClassLayoutContent()">
+        <router-outlet></router-outlet>
+    </div>
+</div>
+<p-confirmDialog header="Tem certeza?" icon="fa fa-question-circle" width="425"
+                 acceptLabel="Sim, exclua agora!" rejectLabel="Cancelar"></p-confirmDialog>

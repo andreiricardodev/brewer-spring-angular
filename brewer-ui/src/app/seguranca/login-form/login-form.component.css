@@ -1,0 +1,44 @@
+.login-page {
+    display: block;
+    max-width: 420px;
+    margin: auto;
+    padding: 0 10px;
+    padding-top: 10%;
+}
+
+/*---------------------------------------*\
+  Simple panel
+  - Usado para login e "esqueci a senha"
+\*---------------------------------------*/
+.login-panel {
+    color: #777777;
+    text-align: center;
+}
+
+.login-panel__message {
+    padding: 20px 0px;
+}
+
+.login-panel__message.is-error {
+    color: #e70500;
+}
+
+.login-panel__box {
+    padding: 20px;
+    padding-bottom: 5px;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    background-color: #f6f6f6;
+}
+
+.login-panel__footer {
+    padding: 10px 0;
+}
+
+.login-btn-full-width {
+    width: 100%;
+}
+
+.login-btn-full-width, .login-inputgroup {
+    margin-bottom: 10px;
+}

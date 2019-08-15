@@ -1,0 +1,54 @@
+<app-page-header titulo="Dashboard"></app-page-header>
+
+<div class="container-fluid">
+    <div class="ui-g">
+        <div class="ui-g-4">
+            <app-box titulo="Valor do estoque" [valor]="dashboardDTO.valorItensEstoque.valor | currency:'BRL':true" icone="fa-heartbeat"></app-box>
+        </div>
+
+        <div class="ui-g-4">
+            <app-box titulo="Itens no estoque" [valor]="dashboardDTO.valorItensEstoque.quantidade" icone="fa-hashtag"></app-box>
+        </div>
+
+        <div class="ui-g-4">
+            <app-box titulo="Total de clientes" [valor]="dashboardDTO.totalClientes" icone="fa-users"></app-box>
+        </div>
+    </div>
+
+    <div class="ui-g">
+        <div class="ui-g-4">
+            <app-box titulo="Vendas no ano" [valor]="dashboardDTO.vendasNoAno | currency:'BRL':true" icone="fa-usd"></app-box>
+        </div>
+
+        <div class="ui-g-4">
+            <app-box titulo="Vendas no mês" [valor]="dashboardDTO.vendasNoMes | currency:'BRL':true" icone="fa-signal"></app-box>
+        </div>
+
+        <div class="ui-g-4">
+            <app-box titulo="Ticket médio" [valor]="dashboardDTO.ticketMedio | currency:'BRL':true" icone="fa-shopping-cart"></app-box>
+        </div>
+    </div>
+
+    <div class="ui-g">
+        <div class="ui-g-6">
+            <div class="aw-graph-box">
+                <div class="aw-graph-box__header">
+                    <h2 class="aw-graph-box__title">Vendas por Mês <small>Últimos 6 meses</small></h2>
+                </div>
+                <div>
+                    <p-chart type="line" [data]="dadosPorMes"></p-chart>
+                </div>
+            </div>
+        </div>
+        <div class="ui-g-6">
+            <div class="aw-graph-box">
+                <div class="aw-graph-box__header">
+                    <h2 class="aw-graph-box__title">Vendas por Origem <small>Últimos 6 meses</small></h2>
+                </div>
+                <div>
+                    <p-chart type="bar" [data]="dadosPorOrigem"></p-chart>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

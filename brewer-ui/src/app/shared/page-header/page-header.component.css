@@ -1,0 +1,47 @@
+.page-header {
+    padding-bottom: 0px;
+    background-color: #fafbfd;
+    margin: 36px 0px 28px;
+    border-bottom: 1px solid #eeeeee;
+}
+
+.page-header h1 {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 0px;
+    height: 80px;
+    color: #333333;
+
+    font-size: 22px;
+    font-family: inherit;
+    font-weight: 500;
+    line-height: 1.1;
+}
+
+.page-header-controls {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 80px;
+}
+
+@media (max-width: 991px) {
+    .ui-button-desktop {
+        display: none !important;
+    }
+
+    .ui-button-mobile {
+        display: block !important;
+    }
+}
+
+@media (min-width: 992px) {
+    .ui-button-desktop {
+        display: block !important;
+    }
+
+    .ui-button-mobile {
+        display: none !important;
+    }
+}

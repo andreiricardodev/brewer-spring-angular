@@ -1,0 +1,24 @@
+<nav class="layout-navbar" id="main-navbar">
+    <div class="container-fluid">
+        <div class="layout-navbar-header">
+            <a class="layout-navbar-brand" href="#">
+                <img alt="AlgaWorks" src="../../../assets/images/logo.png">
+            </a>
+
+            <ul class="layout-navbar-toggle">
+                <li>
+                    <a (click)="esconderMenu()"><i class="fa fa-bars"></i></a>
+                </li>
+            </ul>
+        </div>
+
+        <ul class="layout-navbar-nav">
+            <li>
+                <p class="layout-navbar-text">{{ auth.jwtPayload?.nome  }}</p>
+            </li>
+            <li>
+                <a href="javascript:;" (click)="logout()"><em class="fa fa-sign-out"></em></a>
+            </li>
+        </ul>
+    </div>
+</nav>

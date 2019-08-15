@@ -1,0 +1,76 @@
+<aside class="layout-sidebar js-sidebar">
+    <div class="layout-sidebar__content">
+        <nav class="layout-menu">
+            <ul class="layout-menu__list">
+                <li class="layout-menu__item">
+                    <a routerLink=""><i class="fa fa-fw fa-home"></i><span>Dashboard</span></a>
+                </li>
+
+                <li class="layout-menu__item" #menuVendas>
+                    <a (click)="expandirSubMenu(menuVendas)">
+                        <i class="fa fa-fw fa-credit-card"></i><span>Vendas</span>
+                        <i class="layout-menu__navigation-icon  fa"></i>
+                    </a>
+
+                    <ul class="layout-menu__list layout-menu__list--sublist">
+                        <li class="layout-menu__item  layout-menu__item--link">
+                            <a routerLink="/vendas/nova">Cadastro de venda</a>
+                        </li>
+
+                        <li class="layout-menu__item layout-menu__item--link">
+                            <a routerLink="/vendas">Pesquisa de vendas</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="layout-menu__item" #menuEstoque>
+                    <a (click)="expandirSubMenu(menuEstoque)">
+                        <i class="fa fa-fw fa-truck"></i><span>Estoque</span>
+                        <i class="layout-menu__navigation-icon  fa"></i>
+                    </a>
+
+                    <ul class="layout-menu__list layout-menu__list--sublist">
+                        <li class="layout-menu__item layout-menu__item--link" routerLinkActive="is-active">
+                            <a routerLink="/estilos">Estilos</a>
+                        </li>
+                        <li class="layout-menu__item layout-menu__item--link" routerLinkActive="is-active">
+                            <a routerLink="/cervejas">Cervejas</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="layout-menu__item" #menuCadastros>
+                    <a (click)="expandirSubMenu(menuCadastros)">
+                        <i class="fa fa-fw fa-file-text"></i><span>Cadastros</span>
+                        <i class="layout-menu__navigation-icon  fa"></i>
+                    </a>
+
+                    <ul class="layout-menu__list layout-menu__list--sublist">
+                        <li class="layout-menu__item layout-menu__item--link">
+                            <a routerLink="/cidades">Cidades</a>
+                        </li>
+                        <li class="layout-menu__item layout-menu__item--link">
+                            <a routerLink="/clientes">Clientes</a>
+                        </li>
+                        <li class="layout-menu__item layout-menu__item--link">
+                            <a routerLink="/usuarios">Usuários</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="layout-menu__item" #menuRelatorios>
+                    <a (click)="expandirSubMenu(menuRelatorios)">
+                        <i class="fa fa-fw fa-file-pdf-o"></i><span>Relatórios</span>
+                        <i class="layout-menu__navigation-icon  fa"></i>
+                    </a>
+
+                    <ul class="layout-menu__list layout-menu__list--sublist">
+                        <li class="layout-menu__item layout-menu__item--link">
+                            <a routerLink="/relatorios/vendasEmitidas">Vendas emitidas</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</aside>

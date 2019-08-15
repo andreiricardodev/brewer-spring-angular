@@ -1,0 +1,29 @@
+.panel {
+    box-sizing: border-box;
+    color: #777777;
+    display: block;
+    font-size: 13px;
+    line-height: 18.5714px;
+    text-align: center;
+    max-width: 420px;
+    margin: auto;
+    padding: 0 10px;
+    padding-top: 10%;
+}
+
+.panel__code {
+    color: #d9d9d9;
+    font-size: 80px;
+    font-weight: 400;
+    margin: 0;
+}
+
+.panel__title {
+    font-size: 32px;
+}
+
+.panel__description {
+    display: block;
+    padding: 18px 0;
+}
+

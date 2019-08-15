@@ -1,0 +1,22 @@
+<app-page-header [titulo]="tituloPagina" tituloBotao="Pesquisa" linkRota="/estilos" [exibeBotao]="true"></app-page-header>
+
+<div class="container-fluid">
+    <p-messages></p-messages>
+
+    <form #form="ngForm" autocomplete="off" (ngSubmit)="salvar(form)">
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12 bw-required">
+                <label for="nome">Nome</label>
+                <input type="text" id="nome" name="nome" pInputText [(ngModel)]="estilo.nome"
+                       #nome="ngModel" required maxlength="20">
+                <app-message [control]="nome" error="required"
+                             text="O nome é obrigatório."></app-message>
+                <app-message [control]="nome" error="maxlength"
+                             text="O tamanho do nome não pode ser maior que 20 caracteres."></app-message>
+            </div>
+        </div>
+
+        <button pButton type="submit" class="bw-btn" label="Salvar"
+            [disabled]="form.invalid"></button>
+    </form>
+</div>

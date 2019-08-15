@@ -1,0 +1,48 @@
+<app-page-header titulo="Pesquisa de Cidades" tituloBotao="Nova Cidade" linkRota="/cidades/nova"
+                 [exibeBotao]="auth.temPermissao('ROLE_CADASTRAR_CIDADE')"></app-page-header>
+
+<div class="container-fluid">
+    <p-messages></p-messages>
+
+    <form autocomplete="off" (ngSubmit)="pesquisar()">
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-4">
+                <label for="estado">Estado</label>
+                <p-dropdown id="estado" name="estado" [options]="estados" placeholder="Todos os Estados" [style]="{'width':'100%'}"
+                            [(ngModel)]="cidadeFilter.estado"></p-dropdown>
+            </div>
+            <div class="ui-g-8">
+                <label for="nome">Nome</label>
+                <input type="text" id="nome" name="nome" pInputText [(ngModel)]="cidadeFilter.nome">
+            </div>
+        </div>
+
+        <button type="submit" pButton class="bw-btn" label="Pesquisar"></button>
+    </form>
+
+    <div class="ui-g ui-fluid">
+        <div class="ui-g-12">
+            <p-dataTable #tabela [value]="cidades" [responsive]="true"
+                         emptyMessage="Nenhuma cidade encontrada"
+                         [paginator]="true" [rows]="cidadeFilter.itensPorPagina"
+                         [lazy]="true" [totalRecords]="totalRegistros"
+                         (onLazyLoad)="aoMudarPagina($event)"
+                         (onSort)="aoOrdenar($event)">
+                <p-column field="nome" header="Nome" styleClass="table-cidades-col-nome" [sortable]="true"></p-column>
+                <p-column field="estado.nome" header="Estado" styleClass="table-cidades-col-estado" [sortable]="true"></p-column>
+                <p-column styleClass="table-col-acoes">
+                    <ng-template let-cidade="rowData" pTemplate="body">
+                        <a class="bw-btn-link" pTooltip="Editar" tooltipPosition="top"
+                           [routerLink]="['/cidades/'+cidade.codigo]">
+                            <span class="fa fa-pencil"></span>
+                        </a>
+                        <a class="bw-btn-link" pTooltip="Excluir" tooltipPosition="top"
+                           (click)="removerCidade(cidade, tabela)">
+                            <span class="fa fa-trash"></span>
+                        </a>
+                    </ng-template>
+                </p-column>
+            </p-dataTable>
+        </div>
+    </div>
+</div>
